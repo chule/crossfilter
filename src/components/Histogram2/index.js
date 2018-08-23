@@ -79,15 +79,16 @@ class Histogram extends Component {
                     : value
         } 
 
-        let first = extent[0] > 0 ? Math.floor(extent[0]) : Math.floor(extent[0] / rounder(extent[1])) * rounder(extent[1])
-        let second = extent[0] > 0 ? Math.ceil(extent[1]) : Math.ceil(extent[1]) 
+        // let first = extent[0] > 0 ? Math.floor(extent[0]) : Math.floor(extent[0] / rounder(extent[1])) * rounder(extent[1])
+        // let second = extent[0] > 0 ? Math.ceil(extent[1]) : Math.ceil(extent[1]) 
 
-        // let first = Math.ceil(extent[0])
-        // let second = Math.ceil(extent[1]) 
+        let first = extent[0]
+        let second = extent[1]
 
         xScale = d3.scaleLinear()
             .domain([first, second])
-            .range([0, width]);
+            .range([0, width])
+            .nice()
 
         histogram = d3.histogram()
             .value(d => d.key)
@@ -100,7 +101,8 @@ class Histogram extends Component {
 
         yScale = d3.scaleLinear()
             .domain([0, d3.max(histogram(all), d => d.length)])
-            .range([height, 0]);
+            .range([height, 0])
+            .nice()
 
 
         if (nextProps.name === "earningsGrowth") {
