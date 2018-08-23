@@ -40,16 +40,16 @@ const store = (() => {
 
     // Create dimensions and groups.
     const totalDebtToEquityRatio = filter.dimension(d => d.totalDebtToEquityRatio)
-    const totalDebtToEquityRatioGroup = totalDebtToEquityRatio.group(d => Math.floor(d / 10) * 10)//.reduceSum(d => d.totalDebtToEquityRatio)
+    const totalDebtToEquityRatioGroup = totalDebtToEquityRatio.group()//.reduceSum(d => d.totalDebtToEquityRatio)
 
     const dividendRate = filter.dimension(d => d.dividendRate)
-    const dividendRateGroup = dividendRate.group(d => Math.floor(d / 10) * 10) //d => Math.floor(d)
+    const dividendRateGroup = dividendRate.group() //d => Math.floor(d)
 
     const pERatio = filter.dimension(d => d.pERatio)
-    const pERatioGroup = pERatio.group(d => Math.floor(d / 10) * 10)
+    const pERatioGroup = pERatio.group() //.group(d => Math.floor(d / 10) * 10)
 
     const earningsGrowth = filter.dimension(d => d.earningsGrowth)
-    const earningsGrowthGroup = earningsGrowth.group(d => Math.floor(d / 10) * 10)
+    const earningsGrowthGroup = earningsGrowth.group()
 
     // Create dimensions and groups.
     // const index = filter.dimension(d => d[0]);
