@@ -72,14 +72,27 @@ class Histogram extends Component {
 
         let extent = d3.extent(all, d => d.key)
 
+        const rounder = (value) => {
+            return value > 1000 ? 1000
+                    : value > 100 ? 100
+                    : value > 10 ? 10 
+                    : value
+        } 
+
+        let first = extent[0] > 0 ? Math.floor(extent[0]) : Math.floor(extent[0] / rounder(extent[1])) * rounder(extent[1])
+        let second = extent[0] > 0 ? Math.ceil(extent[1]) : Math.ceil(extent[1]) 
+
+        // let first = Math.ceil(extent[0])
+        // let second = Math.ceil(extent[1]) 
+
         xScale = d3.scaleLinear()
-            .domain([Math.floor(extent[0]), Math.floor(extent[1])])
+            .domain([first, second])
             .range([0, width]);
 
         histogram = d3.histogram()
             .value(d => d.key)
             .domain(xScale.domain())
-            .thresholds(25);
+            .thresholds(xScale.ticks(40));
 
         // yScale = d3.scaleLinear()
         //     .domain(d3.extent(all, d => d.value))
@@ -89,7 +102,16 @@ class Histogram extends Component {
             .domain([0, d3.max(histogram(all), d => d.length)])
             .range([height, 0]);
 
-        console.log(histogram(all))
+
+        if (nextProps.name === "earningsGrowth") {
+            console.log(histogram(all))
+            console.log(xScale.ticks(40))
+            console.log(xScale.domain())
+            console.log(extent)
+            extent
+        }
+
+        
 
         prevState = { ...prevState, xScale, yScale, histogram, svgDimensions, width, height };
         return prevState;
