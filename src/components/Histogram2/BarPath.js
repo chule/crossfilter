@@ -4,7 +4,8 @@ import * as d3 from 'd3'
 class BarPath extends Component {
 
     state = {
-        brush: null
+        brush: null,
+        extents: null
     }
 
     componentDidMount() {
@@ -54,11 +55,12 @@ class BarPath extends Component {
                 .style('display', null)
                 .attr('transform', (d, i) => `translate(${d3.event.selection[i]}, 0)`);
 
-            this.setState(() => ({
-                brush: d3.event.selection
-            }))
+            let extents = d3.event.selection.map(xScale.invert)
 
-            let extents = d3.event.selection.map(xScale.invert);
+            this.setState(() => ({
+                brush: d3.event.selection,
+                extents
+            }))
 
             this.props.dimension.filter(extents);
         }
@@ -71,7 +73,8 @@ class BarPath extends Component {
             this.props.dimension.filterAll();
             this.props.redrawAll();
             this.setState(() => ({
-                brush: null
+                brush: null,
+                extents: null
             }))
             d3.select(this.brush).selectAll('.brush-handle')
                 .style('display', 'none')
@@ -108,10 +111,15 @@ class BarPath extends Component {
         return (
             <g transform={`translate(${[margin.left, margin.top]})`}>
                 {this.state.brush &&
-                    <clipPath id={"clip-" + name}>
-                        <rect width={this.state.brush[1] - this.state.brush[0]} height={height} x={this.state.brush[0]}>
-                        </rect>
-                    </clipPath>
+                    <g>
+                        <clipPath id={"clip-" + name}>
+                            <rect width={this.state.brush[1] - this.state.brush[0]} height={height} x={this.state.brush[0]}>
+                            </rect>
+                        </clipPath>
+                        <g transform={`translate(10, -20)`}>
+                            <text style={{ textAnchor: 'left' }}> {`filter [${d3.format(".2s")(this.state.extents[0])} to ${d3.format(".2s")(this.state.extents[1])}]`} </text>
+                        </g>
+                    </g>
                 }
 
                 <path className="background bar" fill='#ccc' d={barPath(groups)}> </path>

@@ -104,16 +104,7 @@ class Histogram extends Component {
             .range([height, 0])
             .nice()
 
-
-        if (nextProps.name === "earningsGrowth") {
-            console.log(histogram(all))
-            console.log(xScale.ticks(40))
-            console.log(xScale.domain())
-            console.log(extent)
-            extent
-        }
-
-        
+     
 
         prevState = { ...prevState, xScale, yScale, histogram, svgDimensions, width, height };
         return prevState;
