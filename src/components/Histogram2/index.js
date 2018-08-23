@@ -54,7 +54,7 @@ class Histogram extends Component {
             // width, height,
             // x, y,
             //xAccessor,
-            yAccessor,
+            //yAccessor,
             //padding,
             parentWidth,
             parentHeight

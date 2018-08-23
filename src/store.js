@@ -2,7 +2,7 @@
 import crossfilter from 'crossfilter'
  
 import initialData from './data/data'
-import * as d3 from 'd3'
+//import * as d3 from 'd3'
 
 // function randomGaussian() {
 //     return Math.sqrt(-2 * Math.log(Math.random())) * Math.cos(2 * Math.PI * Math.random());
