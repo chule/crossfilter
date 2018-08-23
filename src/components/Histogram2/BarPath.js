@@ -115,7 +115,7 @@ class BarPath extends Component {
                 }
 
                 <path className="background bar" fill='#ccc' d={barPath(groups)}> </path>
-                <path className="foreground bar" fill='#B42436' clipPath={"url(#clip" + name + ")"} d={barPath(groups)}> </path>
+                <path className="foreground bar" fill='#B42436' clipPath={"url(#clip-" + name + ")"} d={barPath(groups)}> </path>
                 <g ref={el => this.brush = el}> </g>
             </g>
         );
