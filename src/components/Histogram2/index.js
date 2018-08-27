@@ -48,7 +48,6 @@ class Histogram extends Component {
 
     changeOutliers = () => {
 
-        console.log("changeOutliers")
         this.setState(oldState => ({
             ...oldState,
             outliersExcluded: !oldState.outliersExcluded
@@ -82,11 +81,6 @@ class Histogram extends Component {
         let height = svgDimensions.height - margin.top - margin.bottom
 
         let extent = d3.extent(all, d => d.key)
-
-
-        console.log("nextProps, prevState", nextProps, prevState)
-
-
 
         if (prevState.outliersExcluded) {
             xScale = d3.scaleLinear()

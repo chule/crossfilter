@@ -40,7 +40,7 @@ class EntireChart extends React.Component {
                         group={store.totalDebtToEquityRatioGroup}
                         yAccessor={d => d.value}
                         padding={2}
-                        outliers={[0,500]}
+                        outliers={[0,350]}
                         redrawAll={this.redrawAll} />
                 </div>
 
@@ -52,7 +52,7 @@ class EntireChart extends React.Component {
                         group={store.dividendRateGroup}
                         yAccessor={d => d.value}
                         padding={2}
-                        outliers={[0,25]}
+                        outliers={[0,11]}
                         redrawAll={this.redrawAll} />
                 </div>
                 <div style={{ width: '50%', height: '350px' }}>
