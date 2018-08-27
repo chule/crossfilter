@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 //import BarChart from "./BarChart"
-import BarPath from "./BarPath"
+import BarPath from './BarPath'
+import ChangeOutliers from './ChangeOutliers'
 import Axes from './Axes'
 import * as d3 from "d3"
 import ResponsiveWrapper from './ResponsiveWrapper'
@@ -17,7 +18,8 @@ class Histogram extends Component {
         svgDimensions: null,
         all: this.props.group.all(),
         width: null,
-        heigth: null
+        heigth: null,
+        outliersExcluded: true
     }
 
     componentDidMount() {
@@ -42,6 +44,15 @@ class Histogram extends Component {
         };
 
         store.charts.push(chart);
+    }
+
+    changeOutliers = () => {
+
+        console.log("changeOutliers")
+        this.setState(oldState => ({
+            ...oldState,
+            outliersExcluded: !oldState.outliersExcluded
+        }))
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -72,23 +83,24 @@ class Histogram extends Component {
 
         let extent = d3.extent(all, d => d.key)
 
-        const rounder = (value) => {
-            return value > 1000 ? 1000
-                    : value > 100 ? 100
-                    : value > 10 ? 10 
-                    : value
-        } 
 
-        // let first = extent[0] > 0 ? Math.floor(extent[0]) : Math.floor(extent[0] / rounder(extent[1])) * rounder(extent[1])
-        // let second = extent[0] > 0 ? Math.ceil(extent[1]) : Math.ceil(extent[1]) 
+        console.log("nextProps, prevState", nextProps, prevState)
 
-        let first = extent[0]
-        let second = extent[1]
 
-        xScale = d3.scaleLinear()
-            .domain([first, second])
-            .range([0, width])
-            .nice()
+
+        if (prevState.outliersExcluded) {
+            xScale = d3.scaleLinear()
+                .domain(nextProps.outliers)
+                .range([0, width])
+                .nice()
+        } else {
+            xScale = d3.scaleLinear()
+                .domain(extent)
+                .range([0, width])
+                .nice()
+        }
+
+
 
         histogram = d3.histogram()
             .value(d => d.key)
@@ -104,7 +116,7 @@ class Histogram extends Component {
             .range([height, 0])
             .nice()
 
-     
+
 
         prevState = { ...prevState, xScale, yScale, histogram, svgDimensions, width, height };
         return prevState;
@@ -112,17 +124,22 @@ class Histogram extends Component {
 
     render() {
 
-        const { xScale, yScale, margin, svgDimensions, histogram, all, width, height } = this.state
+        const { xScale, yScale, margin, svgDimensions, histogram, all, width, height, outliersExcluded } = this.state
 
         return (
 
             <svg width={svgDimensions.width} height={svgDimensions.height}>
 
                 <g transform={`translate(${svgDimensions.width / 2}, 22)`}>
-                    <text style={{textAnchor: 'middle'}}> {this.props.name} </text>
+                    <text style={{ textAnchor: 'middle' }}> {this.props.name} </text>
                 </g>
 
                 {/*  */}
+                <ChangeOutliers 
+                    outliersExcluded={outliersExcluded} 
+                    changeOutliers={this.changeOutliers}
+                    svgDimensions={svgDimensions}
+                    />
                 <BarPath
                     scales={{ xScale, yScale }}
                     name={this.props.name}

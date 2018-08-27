@@ -59,6 +59,9 @@ const store = (() => {
     // const index2D = filter.dimension(d => d);
     // const index2DGroup = index2D.group();
 
+
+    pERatio.filter([0,70])
+// console.log(pERatio.filterRange([0,70]).top(Infinity))
     const charts = [];
 
     return {
@@ -66,7 +69,8 @@ const store = (() => {
         filter,
         totalDebtToEquityRatio, totalDebtToEquityRatioGroup,
         dividendRate, dividendRateGroup,
-        pERatio, pERatioGroup,
+        pERatio,//: pERatio.filterRange([0,70]).top(Infinity), 
+        pERatioGroup,
         earningsGrowth, earningsGrowthGroup,
         charts
     };

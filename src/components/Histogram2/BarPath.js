@@ -39,6 +39,8 @@ class BarPath extends Component {
             .attr('d', resizePath)
             .style('display', 'none');
 
+        // this.props.dimension.filter([0, 70]);
+        // this.props.redrawAll();
 
     }
 
@@ -62,9 +64,9 @@ class BarPath extends Component {
                 extents
             }))
 
-            this.props.dimension.filter(extents);
+            this.props.dimension.filter(extents)
         }
-
+        //this.props.dimension.filter([0,70]);
         this.props.redrawAll();
     }
 

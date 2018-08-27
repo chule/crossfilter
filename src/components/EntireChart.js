@@ -7,7 +7,8 @@ import './entireChart.css'
 
 class EntireChart extends React.Component {
     componentWillMount() {
-        this.filterAll();
+        //this.filterAll();
+        //store.pERatio.filter([0,70])
     }
 
     filterAll() {
@@ -18,13 +19,19 @@ class EntireChart extends React.Component {
             store.earningsGrowth
         ].forEach(dimension => dimension.filterAll())
     }
+
+
+
     redrawAll() {
         store.charts.forEach(chart => chart.redraw());
     }
 
     render() {
+
+        store.pERatio.filter([0, 70])
+
         return (
-            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 <div style={{ width: '50%', height: '350px' }}>
                     <Histogram
                         id='histogram-chart'
@@ -33,6 +40,7 @@ class EntireChart extends React.Component {
                         group={store.totalDebtToEquityRatioGroup}
                         yAccessor={d => d.value}
                         padding={2}
+                        outliers={[0,500]}
                         redrawAll={this.redrawAll} />
                 </div>
 
@@ -44,6 +52,7 @@ class EntireChart extends React.Component {
                         group={store.dividendRateGroup}
                         yAccessor={d => d.value}
                         padding={2}
+                        outliers={[0,25]}
                         redrawAll={this.redrawAll} />
                 </div>
                 <div style={{ width: '50%', height: '350px' }}>
@@ -54,6 +63,7 @@ class EntireChart extends React.Component {
                         group={store.pERatioGroup}
                         yAccessor={d => d.value}
                         padding={2}
+                        outliers={[0,70]}
                         redrawAll={this.redrawAll} />
                 </div>
                 <div style={{ width: '50%', height: '350px' }}>
@@ -64,6 +74,7 @@ class EntireChart extends React.Component {
                         group={store.earningsGrowthGroup}
                         yAccessor={d => d.value}
                         padding={2}
+                        outliers={[-100,250]}
                         redrawAll={this.redrawAll} />
                 </div>
             </div>
